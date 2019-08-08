@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.baizhi.dao.ArticleDao">
+    <select id="showAllArticle" parameterType="java.lang.String" resultType="Article">
+              select * from article limit  ${(page-1)*rows},#{rows}
+    </select>
+
+    <select id="selectOne" resultType="Article" parameterType="java.lang.String">
+        select * from article where id=#{id}
+    </select>
+
+    <insert id="add" parameterType="Article">
+        insert into article values(#{id},#{title},#{picture},#{content},#{status},#{creat_time},#{guru_id})
+    </insert>
+
+    <delete id="del" parameterType="java.lang.String">
+        delete from article where id=#{id}
+    </delete>
+
+    <update id="update" parameterType="Article">
+        update article
+        <set>
+            <if test="title!=null">title=#{title},</if>
+            <if test="picture!=null">picture=#{picture},</if>
+            <if test="content!=null">content=#{content},</if>
+            <if test="status!=null">status=#{status},</if>
+            <if test="creat_time!=null">creat_time=#{creat_time},</if>
+            <if test="guru_id!=null">guru_id=#{guru_id},</if>
+        </set>
+        where id=#{id}
+    </update>
+
+    <select id="totalcount" resultType="int">
+        select  count(*) from  article
+    </select>
+
+</mapper>

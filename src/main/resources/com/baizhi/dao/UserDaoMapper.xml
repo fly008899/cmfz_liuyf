@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.baizhi.dao.UserDao">
+    <select id="showAll" resultType="User">
+              select * from user
+    </select>
+
+    <select id="showAllUser" parameterType="java.lang.String" resultType="User">
+              select * from user limit  ${(page-1)*rows},#{rows}
+    </select>
+
+    <select id="selectOne" resultType="User" parameterType="java.lang.String">
+        select * from user where id=#{id}
+    </select>
+
+    <insert id="add" parameterType="User">
+        insert into user values(#{id},#{phone},#{password},#{salt},#{picture},#{nick},#{name},#{sex},#{localtion},#{sign},#{status},#{creat_time},#{guru_id})
+    </insert>
+
+    <delete id="del" parameterType="java.lang.String">
+        delete from user where id=#{id}
+    </delete>
+
+    <update id="update" parameterType="User">
+        update user
+        <set>
+            <if test="phone!=null">phone=#{phone},</if>
+            <if test="password!=null">password=#{password},</if>
+            <if test="salt!=null">salt=#{salt},</if>
+            <if test="picture!=null">picture=#{picture},</if>
+            <if test="nick!=null">nick=#{nick},</if>
+            <if test="name!=null">name=#{name},</if>
+            <if test="sex!=null">sex=#{sex},</if>
+            <if test="localtion!=null">localtion=#{localtion},</if>
+            <if test="sign!=null">sign=#{sign},</if>
+            <if test="status!=null">status=#{status},</if>
+            <if test="creat_time!=null">creat_time=#{creat_time},</if>
+            <if test="guru_id!=null">guru_id=#{guru_id}</if>
+        </set>
+        where id=#{id}
+    </update>
+
+    <select id="totalcount" resultType="int">
+        select  count(*) from  user
+    </select>
+
+    <select id="selectlocaltion" resultType="UserLocation">
+        select localtion,count(*) as count from user where sex=#{sex} group by localtion
+    </select>
+
+
+    <select id="selectmonth" resultType="UserMonth">
+        select creat_time as month,count(*) as count from user where creat_time LIKE '%-_${month}-%' and sex=#{sex} group by creat_time
+    </select>
+
+</mapper>

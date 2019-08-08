@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.baizhi.dao.AlbumDao">
+    <!--专辑方法-->
+    <select id="showAllAlbum" parameterType="java.lang.String" resultType="Album">
+        select * from album limit  ${(page-1)*rows},#{rows}
+    </select>
+
+    <select id="selectOne1" resultType="Album">
+        select * from album where id=#{id}
+    </select>
+
+    <insert id="add1" parameterType="Album">
+        insert into album values(#{id},#{title},#{author},#{score},#{cover_img},#{broadcast},#{count},#{content},#{pub_date})
+    </insert>
+
+    <delete id="del1">
+        delete from album where id=#{id}
+    </delete>
+
+    <update id="update1" parameterType="Album">
+        update album
+        <set>
+            <if test="title!=null">
+                title=#{title},
+            </if>
+            <if test="author!=null">
+                author=#{author},
+            </if>
+            <if test="score!=null">
+                score=#{score},
+            </if>
+            <if test="cover_img!=null">
+                cover_img=#{cover_img},
+            </if>
+            <if test="broadcast!=null">
+                broadcast=#{broadcast},
+            </if>
+            <if test="count!=null">
+                count=#{count},
+            </if>
+            <if test="content!=null">
+                content=#{content},
+            </if>
+            <if test="pub_date!=null">
+                pub_date=#{pub_date}
+            </if>
+        </set>
+        where id=#{id}
+    </update>
+
+    <select id="totalcount1" resultType="int">
+        select  count(*) from  album
+    </select>
+
+
+    <!--章节方法-->
+    <select id="showAllChapter" parameterType="java.lang.String" resultType="Chapter">
+        select * from chapter limit  ${(page-1)*rows},#{rows}
+    </select>
+
+    <select id="selectOne2" resultType="Chapter">
+        select * from chapter where id=#{id}
+    </select>
+
+    <insert id="add2" parameterType="Chapter">
+        insert into chapter values(#{id},#{name},#{url},#{size},#{duration},#{up_date},#{album_id})
+    </insert>
+
+    <delete id="del2">
+        delete from chapter where id=#{id}
+    </delete>
+
+    <update id="update2" parameterType="Chapter">
+        update chapter
+        <set>
+            <if test="name!=null">
+                name=#{name},
+            </if>
+            <if test="url!=null">
+                url=#{url},
+            </if>
+            <if test="size!=null">
+                size=#{size},
+            </if>
+            <if test="duration!=null">
+                duration=#{duration},
+            </if>
+            <if test="up_date!=null">
+                up_date=#{up_date},
+            </if>
+            <if test="album_id!=null">
+                album_id=#{album_id}
+            </if>
+        </set>
+        where id=#{id}
+    </update>
+
+    <select id="totalcount2" resultType="int">
+        select  count(*) from  chapter
+    </select>
+
+    <!--表拼接-->
+    <select id="albumJoin" parameterType="java.lang.String" resultType="Chapter">
+        select c.id as id,name,url,size,duration,up_date from chapter c LEFT JOIN album a on c.album_id=a.id where a.id = #{rowId} limit  ${(page-1)*rows},#{rows}
+    </select>
+    <select id="totalcount3" parameterType="java.lang.String" resultType="int">
+        select  count(*) from  chapter where album_id=#{id}
+    </select>
+</mapper>

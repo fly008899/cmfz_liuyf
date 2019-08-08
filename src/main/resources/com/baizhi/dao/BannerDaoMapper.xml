@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.baizhi.dao.BannerDao">
+    <select id="showAll" resultType="Banner">
+        select * from banner limit  ${(page-1)*rows},#{rows}
+    </select>
+
+    <insert id="add" parameterType="Banner">
+        insert into banner values(#{id},#{name},#{pic_path},#{status},#{creat_time},#{description})
+    </insert>
+
+    <delete id="del">
+        delete from banner where id=#{id}
+    </delete>
+
+    <update id="update" parameterType="Banner">
+        update banner
+        <set>
+            <if test="name!=null">
+                name=#{name},
+            </if>
+            <if test="pic_path!=null">
+                pic_path=#{pic_path},
+            </if>
+            <if test="status!=null">
+                status=#{status},
+            </if>
+            <if test="creat_time!=null">
+                creat_time=#{creat_time},
+            </if>
+            <if test="description!=null">
+                description=#{description},
+            </if>
+        </set>
+        where id=#{id}
+    </update>
+
+    <update id="edit" parameterType="Banner">
+        update banner
+        <set>
+            <if test="name!=null">
+                name=#{name},
+            </if>
+            <if test="pic_path!=null">
+                pic_path=#{pic_path},
+            </if>
+            <if test="status!=null">
+                status=#{status},
+            </if>
+            <if test="creat_time!=null">
+                creat_time=#{creat_time},
+            </if>
+            <if test="description!=null">
+                description=#{description},
+            </if>
+        </set>
+        where id=#{id}
+    </update>
+
+    <select id="totalcount" resultType="int">
+        select  count(*) from  banner
+    </select>
+
+    <select id="selectOne" resultType="Banner" parameterType="java.lang.String">
+        select * from banner where id=#{id}
+    </select>
+</mapper>
